@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         int dateIndex = c.getColumnIndex("date");
 
         c.moveToFirst();
-        while(c != null){
+        while(!c.isAfterLast()){
             Log.i("event_name123", c.getString(eventNameIndex));
             Log.i("date123", c.getString(dateIndex));
             c.moveToNext();
