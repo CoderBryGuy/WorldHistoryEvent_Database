@@ -13,21 +13,28 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SQLiteDatabase db = this.openOrCreateDatabase("Events", MODE_PRIVATE, null);
-        db.execSQL("CREATE TABLE IF NOT EXISTS events (event_name VARCHAR, date INT(4))");
+        SQLiteDatabase db = this.openOrCreateDatabase("Users", MODE_PRIVATE, null);
+        db.execSQL("CREATE TABLE IF NOT EXISTS theNewUsers (name VARCHAR, age INT(3), id INTEGER PRIMARY KEY)");
 
-        db.execSQL("INSERT INTO events(event_name, date) VALUES ('Chernobyl', 1986)");
-        db.execSQL("INSERT INTO events(event_name, date) VALUES ('Lincoln Assasination', 1865)");
-        db.execSQL("INSERT INTO events(event_name, date) VALUES ('Woodstock', 1969)");
+        db.execSQL("INSERT INTO theNewUsers(name, age) VALUES ('Nick', 28)");
+        db.execSQL("INSERT INTO theNewUsers(name, age) VALUES ('Bryan', 37)");
+        db.execSQL("INSERT INTO theNewUsers(name, age) VALUES ('Bryan', 27)");
+        db.execSQL("INSERT INTO theNewUsers(name, age) VALUES ('Omer', 18)");
+        db.execSQL("INSERT INTO theNewUsers(name, age) VALUES ('uval', 16)");
 
-        Cursor c = db.rawQuery("SELECT * FROM events", null);
-        int eventNameIndex = c.getColumnIndex("event_name");
-        int dateIndex = c.getColumnIndex("date");
+        db.execSQL("DELETE FROM theNewUsers WHERE id = 10");
+
+//        Cursor c = db.rawQuery("SELECT * FROM users where name = 'Bryan' AND age = 37", null);
+//        Cursor c = db.rawQuery("SELECT * FROM users WHERE name LIKE '%a%' LIMIT 1", null);
+        Cursor c = db.rawQuery("SELECT * FROM theNewUsers", null);
+        int nameIndex = c.getColumnIndex("name");
+        int ageIndex = c.getColumnIndex("age");
+        int primeKeyIndex = c.getColumnIndex("id");
 
         c.moveToFirst();
         while(!c.isAfterLast()){
-            Log.i("event_name123", c.getString(eventNameIndex));
-            Log.i("date123", c.getString(dateIndex));
+            Log.i("name123", " " + c.getInt(primeKeyIndex)+ ": " + c.getString(nameIndex) + " aged: " + Integer.toString(c.getInt(ageIndex)));
+
             c.moveToNext();
         }
     }
